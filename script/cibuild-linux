@@ -18,6 +18,11 @@ set -o pipefail
 git submodule sync --recursive
 git submodule update --init --recursive
 
+docker build \
+  --force-rm \
+  --tag electron-linux \
+  .
+
 docker run \
   --rm \
   --env TARGET_ARCH="$TARGET_ARCH" \
@@ -29,4 +34,4 @@ docker run \
   --user "$UID" \
   --volume "$PWD":/workspace/electron \
   --workdir /workspace/electron \
-  electronbuilds/electron:0.0.2 script/cibuild
+  electron-linux script/cibuild
