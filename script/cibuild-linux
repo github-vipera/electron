@@ -18,16 +18,6 @@ set -o pipefail
 git submodule sync --recursive
 git submodule update --init --recursive
 
-docker build \
-  --force-rm \
-  --tag libchromiumcontent-linux \
-  ./vendor/libchromiumcontent
-
-docker build \
-  --force-rm \
-  --tag electron-linux \
-  .
-
 docker run \
   --rm \
   --env TARGET_ARCH="$TARGET_ARCH" \
@@ -39,4 +29,4 @@ docker run \
   --user "$UID" \
   --volume "$PWD":/workspace/electron \
   --workdir /workspace/electron \
-  electron-linux script/cibuild
+  electronbuilds/electron:0.0.2 script/cibuild
